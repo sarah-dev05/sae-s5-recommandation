@@ -7,8 +7,7 @@ Sessionlocal = sessionmaker(bind=engine)
 
 class MovieDao:
 
-    @staticmethod
-    def get_movie_by_id(tmdb_id):
+    def get_movie_by_id(self, tmdb_id):
         with Sessionlocal() as session:
             movie = session.get(Movie, tmdb_id)
 
@@ -17,8 +16,7 @@ class MovieDao:
 
             return movie.to_dict()
 
-    @staticmethod
-    def get_all_movies():
+    def get_all_movies(self):
         with Sessionlocal() as session :
             movies = session.query(Movie).all()
 
@@ -26,8 +24,7 @@ class MovieDao:
                 for movie in movies
                 ]
 
-    @staticmethod
-    def get_multiple_movie_by_ids(ids) : # [12, 45, 89] type de parametre attendu
+    def get_multiple_movie_by_ids(self, ids) : # [12, 45, 89] type de parametre attendu
 
         if not ids :
             return []
