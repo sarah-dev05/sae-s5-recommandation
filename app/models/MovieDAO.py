@@ -20,9 +20,10 @@ class MovieDao:
         with Sessionlocal() as session :
             movies = session.query(Movie).all()
 
-            return[ movie.to_dict()
-                for movie in movies
-                ]
+            resultats = []
+            for movie in movies:
+                resultats.append(movie.to_dict())
+            return resultats
 
     def get_multiple_movie_by_ids(self, ids) : # [12, 45, 89] type de parametre attendu
 
@@ -33,7 +34,7 @@ class MovieDao:
             movies = session.query(Movie).filter(Movie.tmdb_id.in_(ids)
             ).all()
 
-            return [
-                movie.to_dict()
-                for movie in movies
-                ]
+        resultats = []
+        for movie in movies:
+            resultats.append(movie.to_dict())
+        return resultats
