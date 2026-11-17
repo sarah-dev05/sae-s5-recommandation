@@ -8,12 +8,12 @@ class Movie(Base, BaseModelMixin):
 
     tmdbId = Column(Integer, primary_key=True)
     title = Column(String(100), unique=True, nullable=False, index=True)
-    synopsis = Column(String(1000), unique=True, nullable=False, index=True)
-    genres = Column(String(1000), unique=True, nullable=False, index=True)
-    keywords = Column(String(1000), unique=True, nullable=False, index=True)
-    directors = Column(String(100), unique=True, nullable=False, index=True)
-    actors = Column(String(100), unique=True, nullable=False, index=True)
-    poster = Column(String(100), unique=True, nullable=False, index=True)
+    synopsis = Column(String(1000), unique=True, nullable=False)
+    genres = Column(String(1000), unique=False, nullable=False, index=True)
+    keywords = Column(String(1000), unique=False, nullable=False, index=True)
+    directors = Column(String(100), unique=False, nullable=False, index=True)
+    actors = Column(String(100), unique=False, nullable=False, index=True)
+    poster = Column(String(100), unique=True, nullable=False)
 
     ### relations
 
