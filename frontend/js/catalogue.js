@@ -1,5 +1,6 @@
 // Page catalogue : recherche, affichage des films, sélection de 3 à 5 films.
-import { getMovies, USE_MOCK } from "./api.js";
+import { getMovies } from "./api.js";
+import "./navbar.js";
 import { parseList, createPoster } from "./utils.js";
 
 const MIN = 3;
@@ -15,8 +16,6 @@ const goButton = document.getElementById("go");
 // Ids des films choisis. Si on revient de reco.html (?ids=...), on reprend la sélection.
 const idsUrl = new URLSearchParams(location.search).get("ids");
 let selection = idsUrl ? idsUrl.split(",").map(Number).filter(Boolean).slice(0, MAX) : [];
-
-if (USE_MOCK) document.getElementById("mock-banner").hidden = false;
 
 // Crée la carte d'un film. C'est un <button> : cliquable à la souris ET au clavier.
 function createCard(film) {

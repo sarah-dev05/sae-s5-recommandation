@@ -3,37 +3,35 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Catalogue – Reco de films</title>
+  <title>Accueil — MUST</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;600&family=Instrument+Serif&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-  <!-- Affiché seulement si USE_MOCK = true (voir catalogue.js) -->
-  <p id="mock-banner" class="banner" hidden>Données de démonstration – recommandations factices</p>
-
-  <header class="page-header">
-    <h1>Choisis 3 à 5 films que tu aimes</h1>
-    <p class="muted">On te proposera des films proches de ta sélection.</p>
-    <label class="search">
-      <span class="visually-hidden">Rechercher un film</span>
-      <input id="search" type="search" placeholder="Rechercher un titre…" autocomplete="off">
-    </label>
-  </header>
+  <!-- Rempli par js/navbar.js -->
+  <header id="navbar"></header>
 
   <main>
-    <!-- Messages de chargement / erreur / aucun résultat -->
+    <!-- Messages de chargement / erreur -->
     <p id="status" class="status" role="status"></p>
-    <ul id="grid" class="grid"></ul>
+
+    <!-- Film mis en avant : rempli par accueil.js -->
+    <section id="hero" class="hero" aria-label="Film mis en avant"></section>
+
+    <section class="cta" aria-labelledby="titre-cta">
+      <h2 id="titre-cta">Trouve ton prochain film</h2>
+      <p class="muted">Choisis 3 à 5 films que tu aimes : on te propose des films proches de ta sélection.</p>
+      <a class="btn" href="selection.html">Lancer une recommandation</a>
+    </section>
+
+    <section aria-labelledby="titre-rail">
+      <h2 id="titre-rail">Films du moment</h2>
+      <ul id="rail" class="rail"></ul>
+    </section>
   </main>
 
-  <!-- Barre fixe en bas : compteur + bouton vers les recommandations -->
-  <footer class="selection-bar">
-    <p><strong id="counter">0/5</strong> <span id="bar-message" class="muted">films sélectionnés</span></p>
-    <button id="go" class="btn" type="button" disabled>Voir mes recommandations</button>
-  </footer>
-
-  <script type="module" src="js/catalogue.js"></script>
+  <script type="module" src="js/accueil.js"></script>
 </body>
 </html>

@@ -15,7 +15,11 @@ function normaliser(texte) {
 // fetch + vérification du code HTTP + lecture du JSON.
 async function requete(chemin, options) {
   const reponse = await fetch(API_BASE + chemin, options);
-  if (!reponse.ok) throw new Error("Erreur serveur " + reponse.status);
+  if (!reponse.ok) {
+    const erreur = new Error("Erreur serveur " + reponse.status);
+    erreur.status = reponse.status; // permet de reconnaître un 404 (voir getMovie)
+    throw erreur;
+  }
   return reponse.json();
 }
 
@@ -26,6 +30,26 @@ export async function getMovies(search = "") {
     return MOCK_MOVIES.filter((film) => normaliser(film.title).includes(cherche));
   }
   return requete("/api/movies?search=" + encodeURIComponent(search));
+}
+
+// "Films du moment" : les `limit` premiers films, dans l'ordre de la liste /movie/popular
+// de TMDB au moment de l'import (fichier app/data/tmdb_seul.json). Ce n'est PAS une
+// popularité mise à jour, ni l'ordre de la base (un SELECT renvoie les lignes triées
+// par tmdb_id, INTEGER PRIMARY KEY) : voir docs/API.md. Renvoie un tableau de films.
+export async function getPopular(limit = 20) {
+  if (USE_MOCK) return MOCK_MOVIES.slice(0, limit); // le mock est déjà dans cet ordre
+  return requete("/api/movies/popular?limit=" + limit);
+}
+
+// Un film par son id (page film). Renvoie le film, ou null s'il n'existe pas (404).
+export async function getMovie(id) {
+  if (USE_MOCK) return MOCK_MOVIES.find((film) => film.tmdb_id === id) || null;
+  try {
+    return await requete("/api/movies/" + id);
+  } catch (erreur) {
+    if (erreur.status === 404) return null;
+    throw erreur; // autre erreur (serveur éteint...) : la page l'affichera
+  }
 }
 
 // Films choisis, retrouvés par leurs ids (page reco). Renvoie un tableau de films.

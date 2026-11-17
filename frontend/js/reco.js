@@ -1,13 +1,12 @@
 // Page recommandations : lit les ids dans l'URL, affiche les films choisis,
 // puis les recommandations avec un "Pourquoi ?" calculé côté front.
-import { getMoviesByIds, getRecommendations, USE_MOCK } from "./api.js";
-import { parseList, createPoster } from "./utils.js";
+import { getMoviesByIds, getRecommendations } from "./api.js";
+import "./navbar.js";
+import { parseList, createPoster, el, realisateur } from "./utils.js";
 
 const statusEl = document.getElementById("status");
 const chosenList = document.getElementById("chosen");
 const recoList = document.getElementById("recos");
-
-if (USE_MOCK) document.getElementById("mock-banner").hidden = false;
 
 // reco.html?ids=12,45,89 -> [12, 45, 89] (on ignore ce qui n'est pas un nombre)
 const ids = (new URLSearchParams(location.search).get("ids") || "")
@@ -16,12 +15,7 @@ const ids = (new URLSearchParams(location.search).get("ids") || "")
   .filter(Boolean);
 
 // Le retour à l'accueil garde la sélection actuelle
-document.getElementById("back").href = "index.html?ids=" + ids.join(",");
-
-// Le réalisateur vaut parfois "Inconnu" dans la base : on le traite comme absent.
-function realisateur(film) {
-  return film.directors && film.directors !== "Inconnu" ? film.directors : "";
-}
+document.getElementById("back").href = "selection.html?ids=" + ids.join(",");
 
 // Éléments présents dans les deux listes (intersection avec un Set).
 function enCommun(listeA, listeB) {
@@ -46,14 +40,6 @@ function pourquoi(reco, choisis) {
     if (lignes.length > 0) resultat.push({ titre: choisi.title, lignes });
   }
   return resultat;
-}
-
-// Petit élément HTML avec du texte (évite de répéter createElement + textContent).
-function el(tag, className, texte) {
-  const e = document.createElement(tag);
-  if (className) e.className = className;
-  if (texte) e.textContent = texte;
-  return e;
 }
 
 // Vignette d'un film choisi : petite affiche + titre.
@@ -102,7 +88,7 @@ function createReco(reco, choisis) {
 
 async function init() {
   if (ids.length === 0) {
-    statusEl.textContent = "Aucun film choisi. Reviens à l'accueil pour en sélectionner.";
+    statusEl.textContent = "Aucun film choisi. Retourne à la sélection pour en choisir.";
     return;
   }
   statusEl.textContent = "Chargement des recommandations…";
