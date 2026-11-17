@@ -1,0 +1,233 @@
+/* Thème sombre unique, couleurs imposées dans des variables */
+:root {
+  --bg: #090b0d;
+  --surface-1: #111417;
+  --surface-2: #171b1f;
+  --line-strong: #646e78;
+  --text: #f2f4f5;
+  --text-muted: #9aa3ac;
+  --accent: #61dde3;
+  --on-accent: #061416;
+  --radius: 10px;
+  --gutter: 16px;
+  color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font: 400 1rem/1.5 "Instrument Sans", system-ui, sans-serif;
+  padding-bottom: 96px; /* place pour la barre fixe du bas */
+}
+
+h1, h2 {
+  font-family: "Instrument Serif", Georgia, serif;
+  font-weight: 400;
+  line-height: 1.1;
+  margin: 0 0 8px;
+}
+h1 { font-size: clamp(2rem, 5vw, 3.2rem); }
+h2 { font-size: 1.8rem; }
+
+.muted { color: var(--text-muted); }
+
+/* Focus clavier bien visible partout */
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+
+/* Texte lu par les lecteurs d'écran mais invisible à l'écran */
+.visually-hidden {
+  position: absolute;
+  width: 1px; height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+/* ---------- Bandeau mode mock ---------- */
+.banner {
+  margin: 0;
+  padding: 8px var(--gutter);
+  background: var(--surface-2);
+  border-bottom: 1px solid var(--accent);
+  color: var(--accent);
+  font-size: 0.9rem;
+  text-align: center;
+}
+
+/* ---------- En-tête et recherche ---------- */
+.page-header, main {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 32px var(--gutter) 0;
+}
+main { padding-top: 8px; }
+
+.search input {
+  width: 100%;
+  max-width: 480px;
+  margin-top: 16px;
+  padding: 12px 16px;
+  font: inherit;
+  color: var(--text);
+  background: var(--surface-1);
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius);
+}
+.search input::placeholder { color: var(--text-muted); }
+
+.status { color: var(--text-muted); min-height: 1.5em; }
+
+/* ---------- Grille de cartes ---------- */
+.grid {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 24px 16px;
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  width: 100%;
+  padding: 0;
+  font: inherit;
+  text-align: left;
+  color: inherit;
+  background: none;
+  border: 0;
+  border-radius: var(--radius);
+  cursor: pointer;
+}
+
+/* Affiche au format 2:3 */
+.poster {
+  display: block;
+  width: 100%;
+  aspect-ratio: 2 / 3;
+  object-fit: cover;
+  border-radius: var(--radius);
+  background: var(--surface-2);
+  border: 1px solid transparent;
+}
+.poster--empty {
+  display: grid;
+  place-items: center;
+  color: var(--text-muted);
+  font-size: 0.85rem;
+  border-color: var(--line-strong);
+}
+
+.card:hover .poster { border-color: var(--line-strong); }
+
+/* Film choisi : contour accent autour de l'affiche */
+.card[aria-pressed="true"] .poster {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 2px var(--accent);
+}
+.card[aria-pressed="true"] .card-title { color: var(--accent); }
+
+.card-title { font-weight: 600; margin-top: 6px; }
+.card-meta { color: var(--text-muted); font-size: 0.85rem; }
+
+/* ---------- Boutons ---------- */
+.btn {
+  padding: 12px 20px;
+  font: 600 1rem "Instrument Sans", system-ui, sans-serif;
+  color: var(--on-accent);
+  background: var(--accent);
+  border: 1px solid var(--accent);
+  border-radius: var(--radius);
+  cursor: pointer;
+}
+.btn:disabled {
+  color: var(--text-muted);
+  background: var(--surface-2);
+  border-color: var(--line-strong);
+  cursor: not-allowed;
+}
+
+/* ---------- Barre de sélection fixée en bas ---------- */
+.selection-bar {
+  position: fixed;
+  inset: auto 0 0 0;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px 16px;
+  padding: 12px var(--gutter);
+  background: var(--surface-1);
+  border-top: 1px solid var(--line-strong);
+}
+.selection-bar p { margin: 0; }
+#counter { font-size: 1.2rem; color: var(--accent); }
+
+/* ---------- Page recommandations ---------- */
+.page-header .btn { display: inline-block; margin: 8px 0 16px; }
+
+/* Bouton secondaire (lien "Modifier ma sélection") */
+.btn--ghost {
+  color: var(--text);
+  background: transparent;
+  border-color: var(--line-strong);
+  text-decoration: none;
+}
+.btn--ghost:hover { border-color: var(--accent); }
+
+main section { margin-bottom: 40px; }
+
+/* Films choisis, en petit */
+.chosen {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+.chosen-item { width: 88px; font-size: 0.8rem; }
+.chosen-title { display: block; margin-top: 4px; color: var(--text-muted); }
+
+/* Liste des recommandations : affiche à gauche, infos à droite */
+.reco-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 16px;
+}
+.reco {
+  display: grid;
+  grid-template-columns: 100px 1fr;
+  gap: 16px;
+  padding: 12px;
+  background: var(--surface-1);
+  border: 1px solid var(--surface-2);
+  border-radius: var(--radius);
+}
+.reco-infos { min-width: 0; } /* évite qu'un long texte élargisse la carte */
+.reco-title { margin: 0; font-size: 1.1rem; }
+.score { margin: 4px 0 12px; color: var(--accent); font-weight: 600; }
+
+/* Dépliant "Pourquoi ?" (details/summary natif) */
+.why summary {
+  display: inline-block;
+  padding: 6px 14px;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius);
+  cursor: pointer;
+  list-style: none; /* retire le triangle par défaut */
+}
+.why summary::-webkit-details-marker { display: none; }
+.why[open] summary { border-color: var(--accent); color: var(--accent); }
+.why-film { margin: 12px 0 4px; font-weight: 600; }
+.why-list { margin: 0; padding-left: 18px; overflow-wrap: anywhere; }
