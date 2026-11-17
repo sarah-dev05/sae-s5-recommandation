@@ -162,14 +162,44 @@ Réponse attendue : un **objet** avec `results`, un tableau de films **plus un c
 « … Le serveur est-il lancé ? ». Seul le **404 de `GET /api/movies/<id>`** est interprété (« Film introuvable »).
 Le front ne lit pas le corps des réponses d'erreur.
 
-## CORS
+## Pourquoi CORS est nécessaire
 
-Le front est servi par un serveur statique distinct (`python3 -m http.server 5500` dans `frontend/`), donc l'origine est
-`http://localhost:5500`, différente de l'API (`localhost:8000`). Les navigateurs bloquent alors les appels sans CORS.
+### Le constat
+Le sujet impose un frontend et un backend « totalement séparés ». Concrètement :
+- le front (HTML/CSS/JS) est servi par un serveur de fichiers statiques, ex. `python3 -m http.server 5500` ;
+- le back Flask tourne sur `http://localhost:8000` et ne renvoie que du JSON.
 
-- Activer `flask-cors` pour l'origine `http://localhost:5500`, par exemple `CORS(app, origins=["http://localhost:5500"])`.
-- Le `POST /api/recommend` envoie `Content-Type: application/json` : le navigateur fait d'abord une requête `OPTIONS` (préflight) ; `flask-cors` la gère.
-- `http://127.0.0.1:5500` est une autre origine que `http://localhost:5500`.
+Ce sont deux programmes, donc deux ports différents.
+
+### La règle du navigateur
+Pour un navigateur, une « origine » = protocole + hôte + **port**.
+`http://localhost:5500` et `http://localhost:8000` sont donc deux origines différentes,
+**même sur la même machine**.
+
+Par sécurité (*same-origin policy*), le navigateur bloque par défaut la lecture
+d'une réponse venant d'une autre origine. Sans réglage, chaque `fetch` du front échoue avec :
+`blocked by CORS policy: No 'Access-Control-Allow-Origin' header`.
+
+Ce blocage se produit sur toutes les machines : la nôtre, celle des autres membres, celle du prof en démo.
+
+### La solution
+C'est le **serveur** qui autorise une origine, via l'en-tête `Access-Control-Allow-Origin`.
+Le front ne peut pas contourner ce blocage. Avec Flask, l'extension `flask-cors` s'en charge :
+
+    pip install flask-cors
+
+    from flask_cors import CORS
+    CORS(app, origins=[r"http://localhost:\d+", r"http://127\.0\.0\.1:\d+"])
+
+L'expression régulière autorise n'importe quel port en local, donc ça marche quel que soit
+le port utilisé pour lancer le front. En cas de mise en ligne, il faudra remplacer cette règle par l'adresse réelle du front.
+
+### Pourquoi on ne passe pas par Jinja
+Avec Jinja, Flask génère le HTML et tout est sur la même origine (pas de CORS),
+mais front et back redeviennent couplés, ce qui va à l'encontre du sujet.
+CORS est la conséquence directe du découplage demandé.
+
+Référence : https://developer.mozilla.org/fr/docs/Web/HTTP/CORS
 
 ## Constats sur le backend actuel (`app/`, `main.py`)
 
