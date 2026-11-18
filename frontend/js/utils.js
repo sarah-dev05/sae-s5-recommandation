@@ -1,9 +1,8 @@
-// Petites fonctions partagées par toutes les pages.
+
 
 const TMDB_IMG_BASE = "https://image.tmdb.org/t/p/";
 
 // genres, keywords et actors arrivent en chaîne JSON ('["Drame","Crime"]').
-// On accepte aussi un vrai tableau, au cas où le back les parse un jour.
 export function parseList(champ) {
   if (Array.isArray(champ)) return champ;
   if (typeof champ !== "string" || champ === "") return [];
