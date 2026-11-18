@@ -31,7 +31,7 @@ class MovieDao:
             return []
             
         with Sessionlocal() as session :
-            movies = session.query(Movie).filter(Movie.tmdbId.in_(ids)
+            movies = session.query(Movie).filter(Movie.tmdb_id.in_(ids)
             ).all()
 
         resultats = []
