@@ -4,10 +4,7 @@ import "./navbar.js";
 import { getPopular } from "./api.js";
 import { parseList, createPoster, createChips, el } from "./utils.js";
 
-// ATTENTION : "films du moment" = l'ordre de la liste /movie/popular de TMDB au moment
-// de l'import (fichier app/data/tmdb_seul.json). Ce n'est PAS une popularité mise à jour.
-// Ce n'est pas non plus l'ordre de la base : un SELECT renvoie les lignes triées par
-// tmdb_id (INTEGER PRIMARY KEY), voir docs/API.md.
+
 const NB_FILMS = 20;
 const LONGUEUR_SYNOPSIS = 280;
 
@@ -43,7 +40,7 @@ function remplirHero(film) {
   document.getElementById("hero").replaceChildren(affiche, infos);
 }
 
-// Carte de la rangée : un lien (cliquable souris + clavier) avec affiche et titre.
+
 function creerCarte(film) {
   const li = el("li", "rail-item");
   const a = el("a", "rail-card");
