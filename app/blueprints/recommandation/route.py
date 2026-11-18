@@ -1,10 +1,10 @@
 from flask import request, jsonify, Blueprint
 from app.services.RecommandationService import RecommendationService
 
-recommendations_bp = Blueprint('recommandation', __name__, template_folder='templates')
+recommandations_bp = Blueprint('recommandation', __name__, template_folder='templates')
 recommandation_service = RecommendationService()
 
-@recommendations_bp.route('/', methods=['POST'])
+@recommandations_bp.route('/', methods=['POST'])
 def get_recommendations():
     """Page de résultats : génère les suggestions en fonction des films cochés"""
     data = request.get_json()

@@ -13,10 +13,10 @@ def create_app():
 
 	from app.blueprints import (
 		index_bp,
-		recommandation_bp
+		recommandations_bp
 	)
 
 	app.register_blueprint(index_bp)
-	app.register_blueprint(recommandation_bp, url_prefix='/recommandation')
+	app.register_blueprint(recommandations_bp, url_prefix='/recommandation')
 
 	return app
