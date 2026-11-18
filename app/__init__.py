@@ -1,10 +1,14 @@
 import os
 from flask import Flask
 
+from flask_cors import CORS
+
 
 def create_app():
+	
 	app = Flask(__name__, static_url_path='/static')
 
+	CORS(app, origins=["http://localhost:5500"])
 	app.config['DATABASE_PATH'] = os.path.join(app.root_path, 'movie.db')
 	app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + app.config['DATABASE_PATH']
 	app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
