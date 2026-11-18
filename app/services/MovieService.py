@@ -4,6 +4,9 @@ class MovieService:
     def __init__(self):
         self.movie_dao = MovieDao()
 
+    def get_selected_movie(self, tmdb_id):
+        return self.movie_dao.get_movie_by_id(tmdb_id)
+
     def get_home_movies(self, limite=30):
         return self.movie_dao.get_initial_movies(limite)
 
@@ -11,4 +14,4 @@ class MovieService:
         return self.movie_dao.search_movies_by_title(texte_recherche)
 
     def get_selected_movies(self, liste_ids):
-        return self.movie_dao.get_multiple_movie_by_ids(liste_ids)
+        return self.movie_dao.get_multiple_movie_by_ids(liste_ids)  
