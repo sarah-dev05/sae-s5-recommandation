@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Recommandations — MUST</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;600&family=Instrument+Serif&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- Rempli par js/navbar.js -->
+  <header id="navbar"></header>
+
+  <header class="page-header">
+    <h1>Tes recommandations</h1>
+    <!-- href complété par reco.js pour garder la sélection -->
+    <a id="back" class="btn btn--ghost" href="selection.html">Modifier ma sélection</a>
+  </header>
+
+  <main>
+    <section aria-labelledby="titre-choix">
+      <h2 id="titre-choix">Ta sélection</h2>
+      <ul id="chosen" class="chosen"></ul>
+    </section>
+
+    <section aria-labelledby="titre-reco">
+      <h2 id="titre-reco">Films proches</h2>
+      <!-- Messages de chargement / erreur / aucun résultat -->
+      <p id="status" class="status" role="status"></p>
+      <ol id="recos" class="reco-list"></ol>
+    </section>
+  </main>
+
+  <script type="module" src="js/reco.js"></script>
+</body>
+</html>
