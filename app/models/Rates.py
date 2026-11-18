@@ -8,7 +8,7 @@ class Rates(Base, BaseModelMixin):
 
     rating_id = Column(Integer, primary_key=True, autoincrement=True)
     rating = Column(Float, nullable=False, index=True)
-    movie_id = Column(Integer, ForeignKey('movies.tmdb_id', ondelete='SET NULL'), nullable=False, index=True)
+    movie_id = Column(Integer, ForeignKey('Movie.tmdb_id', ondelete='SET NULL'), nullable=False, index=True)
     user_id = Column(Integer, nullable=False, index=True)
 
     ### relations
