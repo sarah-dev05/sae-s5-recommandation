@@ -1,12 +1,16 @@
 // Page recommandations : lit les ids dans l'URL, affiche les films choisis,
-// puis les recommandations avec un "Pourquoi ?" calculé côté front.
+// puis les recommandations (affiche, titre, score, synopsis).
+// Le bloc "Pourquoi ?" (enCommun, pourquoi, createWhy : éléments en commun avec les films
+// choisis) a été retiré pour la v1. Dernier commit qui le contenait : 84d3e53
+// -> le récupérer avec : git show 84d3e53:frontend/js/reco.js
 import { getMoviesByIds, getRecommendations } from "./api.js";
 import "./navbar.js";
-import { parseList, createPoster, el, realisateur } from "./utils.js";
+import { createPoster, el } from "./utils.js";
 
 const statusEl = document.getElementById("status");
 const chosenList = document.getElementById("chosen");
 const recoList = document.getElementById("recos");
+const chosenBloc = chosenList.closest("section"); // bloc "Ta sélection" (titre + liste)
 
 // reco.html?ids=12,45,89 -> [12, 45, 89] (on ignore ce qui n'est pas un nombre)
 const ids = (new URLSearchParams(location.search).get("ids") || "")
@@ -17,31 +21,6 @@ const ids = (new URLSearchParams(location.search).get("ids") || "")
 // Le retour à l'accueil garde la sélection actuelle
 document.getElementById("back").href = "selection.html?ids=" + ids.join(",");
 
-// Éléments présents dans les deux listes (intersection avec un Set).
-function enCommun(listeA, listeB) {
-  const setB = new Set(listeB);
-  return listeA.filter((x) => setB.has(x));
-}
-
-// Pour un film recommandé, liste ce qu'il partage avec chaque film choisi.
-// Renvoie par ex. [{ titre: "Le Parrain", lignes: [["Genres", ["Drame", "Crime"]]] }]
-function pourquoi(reco, choisis) {
-  const resultat = [];
-  for (const choisi of choisis) {
-    const lignes = [];
-    if (realisateur(reco) && realisateur(reco) === realisateur(choisi)) {
-      lignes.push(["Réalisateur", [realisateur(reco)]]);
-    }
-    const champs = [["Acteurs", "actors"], ["Genres", "genres"], ["Mots-clés", "keywords"]];
-    for (const [label, champ] of champs) {
-      const communs = enCommun(parseList(reco[champ]), parseList(choisi[champ]));
-      if (communs.length > 0) lignes.push([label, communs]);
-    }
-    if (lignes.length > 0) resultat.push({ titre: choisi.title, lignes });
-  }
-  return resultat;
-}
-
 // Vignette d'un film choisi : petite affiche + titre.
 function createChosen(film) {
   const li = el("li", "chosen-item");
@@ -49,39 +28,23 @@ function createChosen(film) {
   return li;
 }
 
-// Bloc "Pourquoi ?" : <details>/<summary> est un dépliant natif du navigateur
-// (clic, clavier et lecteur d'écran gérés sans JavaScript).
-function createWhy(reco, choisis) {
-  const details = el("details", "why");
-  details.append(el("summary", "", "Pourquoi ?"));
-
-  const raisons = pourquoi(reco, choisis);
-  if (raisons.length === 0) {
-    details.append(el("p", "muted", "Aucun élément en commun trouvé avec ta sélection."));
-    return details;
-  }
-  for (const raison of raisons) {
-    details.append(el("p", "why-film", "Avec « " + raison.titre + " »"));
-    const ul = el("ul", "why-list");
-    for (const [label, valeurs] of raison.lignes) {
-      const li = el("li");
-      li.append(el("span", "muted", label + " : "), valeurs.join(", "));
-      ul.append(li);
-    }
-    details.append(ul);
-  }
-  return details;
-}
-
-// Carte d'une recommandation : affiche, titre, score, "Pourquoi ?".
-function createReco(reco, choisis) {
+// Carte d'une recommandation : affiche, titre, score, synopsis.
+function createReco(reco) {
   const li = el("li", "reco");
   const infos = el("div", "reco-infos");
   infos.append(
     el("h3", "reco-title", reco.title),
-    el("p", "score", "Score : " + Number(reco.score).toFixed(2)),
-    createWhy(reco, choisis)
+    // Le score du back est déjà un pourcentage (ex. 34.5) -> "34,5 %"
+    el("p", "score", "Score : " + Number(reco.score).toLocaleString("fr-FR", { minimumFractionDigits: 1, maximumFractionDigits: 1 }) + " %")
   );
+  if (reco.synopsis) {
+    // Le CSS coupe le texte à 4 lignes ; le texte complet est dans title (infobulle au survol)
+    const synopsis = el("p", "reco-synopsis", reco.synopsis);
+    synopsis.title = reco.synopsis;
+    infos.append(synopsis);
+  } else {
+    infos.append(el("p", "muted", "Pas de synopsis disponible."));
+  }
   li.append(createPoster(reco), infos);
   return li;
 }
@@ -96,9 +59,11 @@ async function init() {
     // Les deux requêtes partent en même temps
     const [choisis, reponse] = await Promise.all([getMoviesByIds(ids), getRecommendations(ids)]);
     chosenList.replaceChildren(...choisis.map(createChosen));
+    // Cache absent (ex. lien ouvert dans un nouvel onglet) : on masque le bloc "Ta sélection"
+    chosenBloc.hidden = choisis.length === 0;
     const recos = reponse.results;
     statusEl.textContent = recos.length === 0 ? "Aucune recommandation trouvée pour cette sélection." : "";
-    recoList.replaceChildren(...recos.map((reco) => createReco(reco, choisis)));
+    recoList.replaceChildren(...recos.map(createReco));
   } catch (erreur) {
     statusEl.textContent = "Impossible de charger les recommandations (" + erreur.message + "). Le serveur est-il lancé ?";
   }

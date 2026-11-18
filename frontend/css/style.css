@@ -207,19 +207,16 @@ main section { margin-bottom: 40px; }
 .reco-title { margin: 0; font-size: 1.1rem; }
 .score { margin: 4px 0 12px; color: var(--accent); font-weight: 600; }
 
-/* Dépliant "Pourquoi ?" (details/summary natif) */
-.why summary {
-  display: inline-block;
-  padding: 6px 14px;
-  border: 1px solid var(--line-strong);
-  border-radius: var(--radius);
-  cursor: pointer;
-  list-style: none; /* retire le triangle par défaut */
+/* Synopsis : limité à 4 lignes (le texte complet est dans l'attribut title) */
+.reco-synopsis {
+  margin: 0;
+  color: var(--text-muted);
+  line-height: 1.5;
+  display: -webkit-box;
+  -webkit-line-clamp: 4;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
-.why summary::-webkit-details-marker { display: none; }
-.why[open] summary { border-color: var(--accent); color: var(--accent); }
-.why-film { margin: 12px 0 4px; font-weight: 600; }
-.why-list { margin: 0; padding-left: 18px; overflow-wrap: anywhere; }
 
 /* ---------- Navbar (construite par js/navbar.js) ---------- */
 .navbar {
@@ -244,7 +241,6 @@ main section { margin-bottom: 40px; }
   letter-spacing: 0.08em;
   text-decoration: none;
 }
-.nav-logo abbr { text-decoration: none; cursor: help; } /* pas de pointillés par défaut */
 .nav-links { display: flex; gap: 8px; }
 .nav-link {
   padding: 6px 12px;
@@ -354,16 +350,3 @@ a.btn { display: inline-block; text-decoration: none; }
 .film-infos { max-width: 70ch; }
 .film-infos h2 { margin: 24px 0 4px; font-size: 1.3rem; }
 .film-infos .btn { margin-top: 24px; }
-
-/* ---------- Footer commun (construit par js/navbar.js) ---------- */
-.site-footer {
-  max-width: 1200px;
-  margin: 48px auto 0;
-  padding: 24px var(--gutter);
-  border-top: 1px solid var(--surface-2);
-  text-align: center;
-}
-.site-footer p { margin: 0; color: var(--text-muted); }
-.slogan { font: 400 1.3rem "Instrument Serif", Georgia, serif; }
-.slogan-must { color: var(--accent); font-weight: 700; }
-.site-footer-name { margin-top: 4px; font-size: 0.85rem; }

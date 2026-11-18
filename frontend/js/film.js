@@ -1,4 +1,4 @@
-// Page film : film.html?id=123. N'affiche que les champs présents en base
+// Page film : film.html?id=123 (film lu dans le cache, voir api.js). N'affiche que les champs présents en base
 // (affiche, titre, genres, synopsis, réalisateur, acteurs, mots-clés).
 import "./navbar.js";
 import { getMovie } from "./api.js";

@@ -1,4 +1,6 @@
-# API attendue par le front (à implémenter côté back)
+# API du back et du front
+
+> État v1 : voir d'abord « Routes réellement utilisées en v1 ». Le reste du document décrit l'API initialement souhaitée.
 
 Document rédigé à partir du code de `frontend/js/api.js` (appels), `frontend/js/*.js` (utilisation des réponses)
 et `app/` (état du back). Rien ici n'est supposé : chaque exemple reprend le format du mock
@@ -7,6 +9,22 @@ et `app/` (état du back). Rien ici n'est supposé : chaque exemple reprend le f
 - Base : `API_BASE = "http://localhost:8000"` (constante en haut de `frontend/js/api.js` ; `main.py` lance Flask sur `localhost:8000`).
 - Tous les appels sont faits avec `fetch`. Les réponses doivent être du **JSON**.
 - Le front n'envoie aucun en-tête d'authentification ni cookie.
+
+## Routes réellement utilisées en v1
+
+Le front a été adapté au back existant (blueprints `app/blueprints/`). Les routes « attendues » décrites plus bas dans ce document ne sont plus appelées : elles restent comme référence de ce qui serait idéal.
+
+| Fonction du front (`api.js`) | Route du back | Remarques |
+|---|---|---|
+| `getPopular(limit)` | `GET /?limite=N` | Tableau brut de films. |
+| `getMovies(texte)` | `GET /search?q=texte` | Tableau brut. **400 si `q` est vide** : le front appelle alors `getPopular(30)`. |
+| `getRecommendations(ids)` | `POST /recommandation/` body `{"selected_ids": [ids]}` | Tableau brut de films + `score` en **pourcentage** (ex. 34.5), trié par score décroissant. Le front l'enveloppe en `{ results: [...] }`. |
+| `getMovie(id)` | *aucune* | Lu dans le cache `sessionStorage` (`filmsCache`), `null` si inconnu. |
+| `getMoviesByIds(ids)` | *aucune* | Lu dans le même cache, films absents ignorés. |
+
+Cache : rempli par chaque réponse du back, 500 films maximum (plus anciens supprimés), propre à l'onglet. À remplacer si le back ajoute `GET /movie/<id>` et une route « films par ids ».
+
+CORS : `app/__init__.py` autorise `http://localhost:5500` (le front doit être lancé sur ce port).
 
 ## Objet « film »
 
@@ -152,7 +170,7 @@ Réponse attendue : un **objet** avec `results`, un tableau de films **plus un c
 ```
 (Film du mock, `keywords` raccourci pour la lecture ; un résultat = un objet film complet + `score`.)
 
-- Chaque résultat **doit contenir** `genres`, `keywords`, `actors`, `directors` : le front calcule lui-même le bloc « Pourquoi ? » en comparant ces champs avec ceux des films choisis.
+- Chaque résultat **doit contenir** `genres`, `keywords`, `actors`, `directors` : le front n'affiche plus le bloc « Pourquoi ? » en v1 (remplacé par le `synopsis`, qui doit donc aussi être présent).
 - Le mock renvoie 10 résultats (les films non choisis, score 0.95 puis −0.05 par film) ; le front accepte n'importe quel nombre. `results: []` affiche « Aucune recommandation trouvée ».
 - Erreur HTTP (non-2xx) ou serveur injoignable : « Impossible de charger les recommandations (…) ».
 

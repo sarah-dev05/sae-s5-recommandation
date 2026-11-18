@@ -1,12 +1,11 @@
-// Navbar + footer communs : chaque page contient juste <header id="navbar"></header>
+// Navbar commune : chaque page contient juste <header id="navbar"></header>
 // et importe ce fichier, qui construit le contenu (pas de HTML dupliqué).
 import { getMovies } from "./api.js";
 import { el, createPoster } from "./utils.js";
 
-// Nom du site : le SEUL endroit à modifier (navbar et footer). Les <title> des
-// pages sont dans chaque fichier HTML (ils doivent exister avant que le JS ne tourne).
+// Nom du site. Les <title> des pages sont dans chaque fichier HTML
+// (ils doivent exister avant que le JS ne tourne).
 const NOM = "MUST";
-const SIGNIFICATION = "My Ultimate Screen Taste";
 
 const header = document.getElementById("navbar");
 
@@ -22,13 +21,9 @@ function lien(texte, href, pages) {
   return a;
 }
 
-// Wordmark texte (le vrai logo viendra plus tard). <abbr> : la signification
-// apparaît au survol et est lue par les lecteurs d'écran.
-const abbr = el("abbr", "", NOM);
-abbr.title = SIGNIFICATION;
-const logo = el("a", "nav-logo");
+// Wordmark texte (le vrai logo viendra plus tard).
+const logo = el("a", "nav-logo", NOM);
 logo.href = "index.html";
-logo.append(abbr);
 
 const liens = el("nav", "nav-links");
 liens.setAttribute("aria-label", "Navigation principale");
@@ -159,11 +154,3 @@ champ.addEventListener("keydown", (e) => {
 document.addEventListener("click", (e) => {
   if (!recherche.contains(e.target)) fermer();
 });
-
-// ---------- Footer ----------
-// Ajouté à la fin du <body> de chaque page. MUST du slogan est mis en avant par le CSS.
-const footer = el("footer", "site-footer");
-const slogan = el("p", "slogan");
-slogan.append("The show ", el("span", "slogan-must", NOM), " go on");
-footer.append(slogan, el("p", "site-footer-name", NOM + " · " + SIGNIFICATION));
-document.body.append(footer);
