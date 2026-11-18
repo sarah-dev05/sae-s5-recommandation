@@ -1,10 +1,7 @@
-// Navbar commune : chaque page contient juste <header id="navbar"></header>
-// et importe ce fichier, qui construit le contenu (pas de HTML dupliqué).
 import { getMovies } from "./api.js";
 import { el, createPoster } from "./utils.js";
 
-// Nom du site. Les <title> des pages sont dans chaque fichier HTML
-// (ils doivent exister avant que le JS ne tourne).
+
 const NOM = "MUST";
 
 const header = document.getElementById("navbar");
@@ -12,8 +9,7 @@ const header = document.getElementById("navbar");
 // Page courante : "index.html" (ou "" quand l'URL finit par "/"), "selection.html"...
 const page = location.pathname.split("/").pop() || "index.html";
 
-// Lien de navigation. aria-current="page" met le lien actif en évidence (CSS)
-// et le signale aux lecteurs d'écran.
+
 function lien(texte, href, pages) {
   const a = el("a", "nav-link", texte);
   a.href = href;
@@ -21,7 +17,6 @@ function lien(texte, href, pages) {
   return a;
 }
 
-// Wordmark texte (le vrai logo viendra plus tard).
 const logo = el("a", "nav-logo", NOM);
 logo.href = "index.html";
 
