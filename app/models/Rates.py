@@ -4,7 +4,7 @@ from app.models.base import Base, BaseModelMixin
 
 class Rates(Base, BaseModelMixin):
 
-    __tablename__ = 'rates'
+    __tablename__ = 'Rates'
 
     rating_id = Column(Integer, primary_key=True, autoincrement=True)
     rating = Column(Float, nullable=False, index=True)
