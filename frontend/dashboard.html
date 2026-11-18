@@ -1,0 +1,126 @@
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Dashboard — MUST</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;600&family=Instrument+Serif&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/dashboard.css">
+</head>
+
+<body>
+  <!-- Barre de navigation commune -->
+  <header id="navbar"></header>
+
+  <header class="page-header">
+    <h1>Mon univers cinéma</h1>
+
+    <p class="muted">
+      Découvre les points communs entre les films que tu as choisis.
+    </p>
+
+    <a id="back" class="btn btn--ghost" href="selection.html">
+      Modifier ma sélection
+    </a>
+  </header>
+
+  <main class="dashboard">
+
+    <p id="status" class="status" role="status">
+      Chargement des films…
+    </p>
+
+    <!-- Statistiques générales -->
+    <section class="dashboard-stats">
+
+      <div class="dashboard-card">
+        <span class="muted">Films analysés</span>
+        <strong id="total-films">—</strong>
+      </div>
+
+      <div class="dashboard-card">
+        <span class="muted">Genres représentés</span>
+        <strong id="total-genres">—</strong>
+      </div>
+
+      <div class="dashboard-card">
+        <span class="muted">Genre le plus fréquent</span>
+        <strong id="genre-dominant">—</strong>
+      </div>
+
+    </section>
+
+    <!-- Analyse de la sélection -->
+    <div class="dashboard-columns">
+
+      <section class="dashboard-panel">
+        <h2>Répartition des genres</h2>
+
+        <p class="muted dashboard-description">
+          Nombre de films associés à chaque genre.
+        </p>
+
+        <div id="genres-chart"></div>
+      </section>
+
+      <section class="dashboard-panel">
+        <h2>Films analysés</h2>
+
+        <ul id="films-list" class="dashboard-film-list"></ul>
+      </section>
+
+    </div>
+
+    <!-- Comparaison des recommandations -->
+    <section class="dashboard-panel">
+
+      <h2>Comparaison des recommandations</h2>
+
+      <div class="dashboard-columns">
+
+        <div class="dashboard-method">
+          <h3>Basée sur le contenu</h3>
+
+          <p class="muted">
+            Compare les caractéristiques des films :
+            genres, acteurs et réalisateurs.
+          </p>
+
+          <p class="dashboard-pending">
+            Résultats à connecter
+          </p>
+        </div>
+
+        <div class="dashboard-method">
+          <h3>Collaborative</h3>
+
+          <p class="muted">
+            S'appuie sur les préférences
+            d'utilisateurs similaires.
+          </p>
+
+          <p class="dashboard-pending">
+            Résultats à connecter
+          </p>
+        </div>
+
+      </div>
+
+      <p class="muted dashboard-description">
+        Les performances seront affichées lorsque
+        le backend fournira les mesures réelles.
+      </p>
+
+    </section>
+
+  </main>
+
+  <script type="module" src="js/dashboard.js"></script>
+</body>
+</html>

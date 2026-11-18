@@ -1,0 +1,114 @@
+
+/* Mise en page du dashboard */
+
+.dashboard {
+  display: grid;
+  gap: 24px;
+}
+
+.dashboard h2 {
+  margin-bottom: 12px;
+}
+
+/* Cartes des statistiques */
+
+.dashboard-stats {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.dashboard-card,
+.dashboard-panel {
+  background: var(--surface-1);
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius);
+  padding: 20px;
+}
+
+.dashboard-card {
+  display: grid;
+  gap: 12px;
+}
+
+.dashboard-card strong {
+  color: var(--accent);
+  font-size: 2rem;
+  overflow-wrap: anywhere;
+}
+
+/* Colonnes du dashboard */
+
+.dashboard-columns {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.dashboard-description {
+  margin-top: 0;
+  font-size: 0.95rem;
+}
+
+/* Graphique des genres */
+
+.dashboard-genre {
+  margin: 16px 0;
+}
+
+.dashboard-genre-label {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 6px;
+}
+
+.dashboard-track {
+  background: var(--surface-2);
+  border-radius: var(--radius);
+  height: 12px;
+  overflow: hidden;
+}
+
+.dashboard-fill {
+  background: var(--accent);
+  height: 100%;
+  border-radius: var(--radius);
+}
+
+/* Liste des films */
+
+.dashboard-film-list {
+  margin: 0;
+  padding-left: 20px;
+}
+
+.dashboard-film-list li {
+  padding: 6px 0;
+}
+
+/* Comparaison des méthodes */
+
+.dashboard-method {
+  background: var(--surface-2);
+  border-radius: var(--radius);
+  padding: 16px;
+}
+
+.dashboard-method h3 {
+  margin: 0 0 8px;
+}
+
+.dashboard-pending {
+  color: var(--accent);
+  font-size: 0.9rem;
+}
+
+/* Affichage sur téléphone */
+
+@media (max-width: 700px) {
+  .dashboard-stats,
+  .dashboard-columns {
+    grid-template-columns: 1fr;
+  }
+}

@@ -34,8 +34,10 @@ const liens = el("nav", "nav-links");
 liens.setAttribute("aria-label", "Navigation principale");
 liens.append(
   lien("Accueil", "index.html", ["index.html"]),
-  lien("Recommandation", "selection.html", ["selection.html", "reco.html"])
+  lien("Recommandation", "selection.html", ["selection.html", "reco.html"]),
+  lien("Statistiques", "dashboard.html", ["dashboard.html"])
 );
+
 
 // Barre de recherche : champ + liste déroulante de résultats.
 const recherche = el("form", "nav-search");
