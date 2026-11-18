@@ -38,3 +38,26 @@ class MovieDao:
         for movie in movies:
             resultats.append(movie.to_dict())
         return resultats
+
+    def get_initial_movies(self, limite=30):
+        with Sessionlocal() as session:
+            movies = session.query(Movie).limit(limite).all()
+
+            resultats = []
+            for movie in movies:
+                resultats.append(movie.to_dict())
+
+            return resultats
+
+    def get_movies_by_title(self, recherche):
+        if not recherche:
+            return []
+
+        with Sessionlocal() as session:
+            movies = session.query(Movie).filter(Movie.title.ilike(f"%{recherche}%")).all()
+
+            resultats = []
+            for movie in movies:
+                resultats.append(movie.to_dict())
+
+            return resultats

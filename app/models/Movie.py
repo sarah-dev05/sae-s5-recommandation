@@ -4,9 +4,9 @@ from app.models.base import Base, BaseModelMixin
 
 class Movie(Base, BaseModelMixin):
 
-    __tablename__ = 'movies'
+    __tablename__ = 'Movie'
 
-    tmdbId = Column(Integer, primary_key=True)
+    tmdb_id = Column(Integer, primary_key=True)
     title = Column(String(100), unique=True, nullable=False, index=True)
     synopsis = Column(String(1000), unique=True, nullable=False)
     genres = Column(String(1000), unique=False, nullable=False, index=True)
