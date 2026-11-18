@@ -43,7 +43,7 @@ class RecommendationService:
 
         index_aimes = []
         for i, movie in enumerate(self.movies):
-            if movie['tmdbId'] in liste_ids_aimes:
+            if movie['tmdb_id'] in liste_ids_aimes:
                 index_aimes.append(i)
         
         if not index_aimes:
