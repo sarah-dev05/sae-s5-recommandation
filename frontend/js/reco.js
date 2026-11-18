@@ -1,8 +1,5 @@
 // Page recommandations : lit les ids dans l'URL, affiche les films choisis,
-// puis les recommandations (affiche, titre, score, synopsis).
-// Le bloc "Pourquoi ?" (enCommun, pourquoi, createWhy : éléments en commun avec les films
-// choisis) a été retiré pour la v1. Dernier commit qui le contenait : 84d3e53
-// -> le récupérer avec : git show 84d3e53:frontend/js/reco.js
+
 import { getMoviesByIds, getRecommendations } from "./api.js";
 import "./navbar.js";
 import { createPoster, el } from "./utils.js";
